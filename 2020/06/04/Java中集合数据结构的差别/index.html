@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <title>
     
-      Java中线程休眠的几种方法 | Blog System
+      Java中集合数据结构的差别 | Blog System
     
   </title>
   <meta name="author" content="Mr Yao">
@@ -100,7 +100,7 @@
 	<!-- Page title -->
 	<p>
 		
-			「Java中线程休眠的几种方法」
+			「Java中集合数据结构的差别」
 		
 	</p>
 
@@ -223,14 +223,27 @@
 		插件作者：KELEN
 		插件来源: https://github.com/KELEN/katelog
 -->
+
+	
+		<div class="layout-toc">
+			<div id="layout-toc">
+				<div class="k-catelog-list" id="catelog-list" data-title="Catalog"></div>
+			</div>
+		</div>
+
+		
+<script src="/plugin/toc/katelog.min.js"></script>
+
+
+		
 	 
 
 <div class="layout-post">
 	<div id="layout-post">
 		<div class="article-title">
 			
-	<a href="/2020/03/01/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BC%91%E7%9C%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" itemprop="url">
-		Java中线程休眠的几种方法
+	<a href="/2020/06/04/Java%E4%B8%AD%E9%9B%86%E5%90%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E5%B7%AE%E5%88%AB/" itemprop="url">
+		Java中集合数据结构的差别
 	</a>
 
 		</div>
@@ -246,9 +259,9 @@
 
 	Updated on
 
-	<a href="/2020/03/01/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BC%91%E7%9C%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" itemprop="url">
-		<time datetime="2020-03-01T07:47:39.000Z" itemprop="dateUpdated">
-	  		2020-03-02
+	<a href="/2020/06/04/Java%E4%B8%AD%E9%9B%86%E5%90%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E5%B7%AE%E5%88%AB/" itemprop="url">
+		<time datetime="2020-06-04T05:44:35.000Z" itemprop="dateUpdated">
+	  		2020-06-04
 	  </time>
 	</a> 
 
@@ -266,7 +279,52 @@
 		</div>
 
 		<div class="article-content" id="article-content">
-			<p><img src="/images/pasted-6.png" alt="upload successful"></p>
+			<p>集合：</p>
+<h2 id="1、HashMap"><a href="#1、HashMap" class="headerlink" title="1、HashMap"></a>1、HashMap</h2><h4 id="1、底层数据结构实现"><a href="#1、底层数据结构实现" class="headerlink" title="1、底层数据结构实现"></a>1、底层数据结构实现</h4><p>一、如何解决hash冲突，其它Hash冲突解决方式</p>
+<p>  1、开放地址法:当发生冲突时使用探测技术在散列表中形成一个探查序列,沿此序列逐个单元的查找,直到一个开放的地址为止</p>
+<p>（1）线性探测再散列:按顺序决定哈希值时 如果某数据已经存在 则在该哈希值上往后加一个单位 直到不发生哈希冲突为止</p>
+<p>（2) 二次探测再散列:按顺序决定哈希值时 如果某数据已经存在,则在该哈希值的基础上添加1的平方个单位 如果仍然存在则减1的平方个单位 随后加上2的平方个单位仍然存在则减2的平方个单位 一直持续下去 直到不发生哈希冲突为止 </p>
+<p>(3)伪随机探测再散列:按顺序决定哈希值时 如果某数据已经存在,通过随机函数生成一个随机数,在该哈希值的基础上加这个随机数,直到不发生哈希冲突</p>
+<p>2、链式地址法:对于相同的哈希值 使用链表进行连接,使用数组储存每个链表。然后优点是处理冲突的方法简单不会有堆积的现象,缺点是指针占用较大的空间 会造成空间浪费</p>
+<p>二、存入null值时</p>
+<p>当key为null值时 是无法调用null的HashCode()方法  也就是无法确定该键值对的桶下标, 只能通过强制指定桶来存放,HashMap是使用第0个桶来存放键为null的键值对 </p>
+<p> 三、什么时候链表会转红黑树，怎么转？<br>当链表长度为8的时候 或者是数组长度达到64的时候就会转成红黑树, 通过treeifyBin()方法来将链表中的结点转换为树节点  然后调用treeify()方法将链表转换成红黑树</p>
+<p>四、为什么会用红黑树而不选择AVL树？</p>
+<p>首先红黑树和AVL树都是平衡二叉树,然后 红黑树是非严格的平衡树任何的不平衡都会在三次旋转之内解决 AVL是严格的平衡树在增加或者删除节点的时候 根据不同的情况,旋转的次数比红黑树要多,红黑树牺牲了一些查找性能 但是其并不是完全的平衡二叉树 因此插入删除效率高于AVL树,AVL在计算平衡方面牺牲了增删操作的效率 但最多只有一层的高度差  查询效率方面会略高于红黑树</p>
+<h4 id="2、1-7与1-8的区别"><a href="#2、1-7与1-8的区别" class="headerlink" title="2、1.7与1.8的区别"></a>2、1.7与1.8的区别</h4><p>1.8相对于1.7底层做了一些改动,主要是优化减少Hash冲突 提高了哈希表的存取效率。</p>
+<p>首先是底层数据结构上1.7使用的是数组加链表, 1.8使用的是数组加链表和红黑树。</p>
+<p>然后是在扩容方面  JDK1.7中resize()方法负责扩容 inflateTable()负责创建表 是在插入数据前进行扩容的, 1.8中resize()方法在表为空时 创建表 在表不为空时 进行扩容,是在插入数据成功后进行扩容,</p>
+<p>然后1.7新增节点时采用的是 头插法 容易造成环形链表死循环的情况,1.8采用的是尾插法 能保证链表的顺序且可以避免环形链表死循环的情况</p>
+<h3 id="3、扩容机制"><a href="#3、扩容机制" class="headerlink" title="3、扩容机制"></a>3、扩容机制</h3><p>1、如何实现数据迁移</p>
+<p>当向容器中添加元素时 会判断容器中元素的个数 如果大于数组的长度*加载因子的话 就会进行扩容。</p>
+<p>创建一个新长度的数组,使用for循环遍历原数组 遍历每一个entry 保存entry及下一个需要循环的entry ,判断是否需要重新计算Hash值, 然后根据Hash和新数组的长度算出新索引位置 ,将新新数组上的数据保存在正在循环的entry中 再将正在循环的entry放到索引处  这大致就是数据的转移</p>
+<p>4、与Hashtable的区别</p>
+<p>HashMap和Hashtable都实现了Map接口。</p>
+<p>HashMap是非线程安全的 (当HashMap使用put方法的时候会调用底层的addEntry()方法, 然后当A线程和B线程同时调用addEntry方法时 A线程获取到头部节点将数据写入进去 然后B也写入头部节点那会造成A写入的数据丢失 )Hashtable是线程安全的因为Synchronize同步锁。</p>
+<p>HashMap允许key和value都可以为空 ,HashTable键值对都不允许为空 否则会到空指针异常。</p>
+<p> 扩容的方式不同HashMap的扩容要求是原容量的2倍 而且是2的幂次倍扩容结果, 然后原来数组的元素重新计算存放位置 并重新插入,而HashTable扩容容量是原容量的2倍加1    </p>
+<p>5、put方法的工作流程</p>
+<p>当使用put方法存数据的时候 会先根据key的HashCode计算出Hash值 然后根据Hash值确定在数组中的位置 如果此处为空就直接插入 然后遍历链表长度是否是大于8如果是 则转成红黑树 插入 </p>
+<p>6、时间复杂度</p>
+<p>如果要时间复杂度为O(1)的话 就得保证以下操作都为O(1), 判断key根据key计数出索引 然后根据索引获得索引位置的键值对 遍历键值对 链表找到对应的Entry, 如果说这些操作的理想状态都为O(1) 才可以说时间复杂度满足O(1),然后要保证这个理想状态不是我们开发者能控制的</p>
+<h2 id="2、ConcurrentHashMap"><a href="#2、ConcurrentHashMap" class="headerlink" title="2、ConcurrentHashMap"></a>2、ConcurrentHashMap</h2><p> 2、解决并发的原理</p>
+<p>首先是ConcurrentHashMap是由HashEnrty和Segment对象组成的,是分段锁来保证线程安全的, 首先将数据分成多段然后为每段数据配置一把锁 当一个线程获取锁访问锁资源的时候 其他段的数据也能被其他线程访问。</p>
+<p>通过HashEnrty的不变性来将低读写操作在遍历链表期间对加锁的需求来解决并发性</p>
+<p>3、1.7与1.8的区别</p>
+<p>ConcurrentHashMap1.7底层是有HashEnery和Segment来实现的</p>
+<p>ConcurrentHashMap1.8是由Node+CAS+Synchronized来保证并发安全的进行</p>
+<p>5、1.7的并发度是多少</p>
+<p>1.7的ConcurrentHashMap并发度是16</p>
+<h2 id="3、Collections工具类"><a href="#3、Collections工具类" class="headerlink" title="3、Collections工具类"></a>3、Collections工具类</h2><p>1、sort方法的底层排序实现原理</p>
+<p>首先sort方法是使用递归进行冒泡排序的然后sort会接受一个比较函数compare()将要排序的数字放入该函数中 如果返回的结果是大于零的整数就说明要交换数字的位置。</p>
+<h2 id="4、Collection"><a href="#4、Collection" class="headerlink" title="4、Collection"></a>4、Collection</h2><p> 1、List<br> 1、ArrayList和LinkedList区别以及各自的适用场景</p>
+<p>首先ArrayList和LinkedList都实现了List接口,ArrayList是基于动态数组的数据结构 LinkedList是链表的数据结构,然后对于查询操作Arrylist要有优于LinkedList因为LinkedList要移动指针,然后增删操作LinkedList要优于ArryList因为 ArryList要移动数据</p>
+<p>适用ArrayList使用在查询比较多，但是插入和删除比较少的情况，而LinkedList用在查询比较少而插入删除比较多的情况</p>
+<p> 2、ArrayList的扩容机制</p>
+<p>首先ArrayList的默认初始化大小是10 然后当超过10的时候会调用grow()方法扩容至原来的1.5倍 然后将原数组中的内容复制到新数组中去</p>
+<p> 2、Set</p>
+<p> 1、HashSet实现原理</p>
+<p>首先HashSet储存数据是无序 非线程安全的, key和value允许为null, 然后存取过程是基于HashMap实现的 </p>
 	
 		</div>
 		
@@ -285,12 +343,8 @@
 	<span>
 		<a id="totop-post-page">To Top</a>
 		
-			<a href="/2020/06/04/Java%E4%B8%AD%E9%9B%86%E5%90%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E5%B7%AE%E5%88%AB/" title="Java中集合数据结构的差别" rel="prev">
-				&laquo;Pre post
-			</a>
 		
-		
-			<a href="/2020/02/05/ava%E9%9B%86%E5%90%88%E8%AF%A6%E8%A7%A3/" title="Java集合详解" rel="next">
+			<a href="/2020/03/01/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BC%91%E7%9C%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" title="Java中线程休眠的几种方法" rel="next">
 				Next post&raquo;
 			</a>
 			
@@ -311,25 +365,23 @@
 			
 					<li>
 						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/06/04/Java%E4%B8%AD%E9%9B%86%E5%90%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E5%B7%AE%E5%88%AB/" title="Java中集合数据结构的差别">
-								Java中集合数据结构的差别			
+							<a class="relate-post-title" href="/2020/03/01/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BC%91%E7%9C%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" title="Java中线程休眠的几种方法">
+								Java中线程休眠的几种方法			
 							</a>
 							<p class="relate-post-date">
 								<i class="fa fa-calendar"></i>
-								六月 4日, 2020				
+								三月 1日, 2020				
 							</p>
 							<p class="relate-post-content">
-								集合：
-1、HashMap1、底层数据结构实现一、如何解决hash冲突，其它Hash冲突解决方式
-  1、开放地址法:当发生冲突时使用探测技术在散列表中形成一个探查序列,沿此序列逐个单元的查找,直到一个开放的地址为止
-（1）线性探测再...
+								
+
 							</p>
 						</div>
 
 						<div class="relate-post-cover">
-							<a href="/2020/06/04/Java%E4%B8%AD%E9%9B%86%E5%90%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E5%B7%AE%E5%88%AB/" title="Java中集合数据结构的差别">				
+							<a href="/2020/03/01/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BC%91%E7%9C%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" title="Java中线程休眠的几种方法">				
 								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/cart_cover.jpg" alt="Java中集合数据结构的差别"/>
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/cart_cover.jpg" alt="Java中线程休眠的几种方法"/>
 							</a>
 						</div>
 					</li>												
